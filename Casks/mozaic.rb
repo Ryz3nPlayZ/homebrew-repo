@@ -12,8 +12,9 @@ cask "mozaic" do
 
   app "Mozaic.app"
 
-  postflight do
-    system_command "/usr/bin/xattr", args: ["-cr", "#{appdir}/Mozaic.app"], sudo: false
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/Mozaic.app"], must_succeed: false
+    run "/usr/bin/xattr", args: ["-d", "com.apple.quarantine", "{{appdir}}/Mozaic.app"], must_succeed: false
   end
 
   zap trash: [
